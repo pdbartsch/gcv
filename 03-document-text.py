@@ -10,10 +10,10 @@ from google.cloud.vision import types
 # Instantiates a client
 client = vision.ImageAnnotatorClient()
 
-# The name of the image file to annotate
+# The name of the image file
 path = os.path.join(
     os.path.dirname(__file__),
-    'resources/assemble.JPG')
+    'resources/draw-scan.JPG')
 
 def detect_document(path):
     """Detects document features in an image."""
@@ -31,29 +31,15 @@ def detect_document(path):
 
     for page in response.full_text_annotation.pages:
         for block in page.blocks:
-            # print('\nBlock confidence: {}\n'.format(block.confidence))
 
             for paragraph in block.paragraphs:
-                # print('Paragraph confidence: {}'.format(
-                #     paragraph.confidence))
 
                 for word in paragraph.words:
                     word_text = ''.join([
                         symbol.text for symbol in word.symbols
                     ])
-                    # print('Word text: {} (confidence: {})'.format(
-                    #     word_text, word.confidence))
-
-                    # print("".join(word_text))
 
                     output.append(word_text)
-
-                    # for symbol in word.symbols:
-                        # print('\tSymbol: {} (confidence: {})'.format(
-                        #     symbol.text, symbol.confidence))
-
-    # return("".join(output))
-    # return output
 
     print(" ".join(output))
 
